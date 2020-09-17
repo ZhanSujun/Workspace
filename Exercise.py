@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+import functools
 
 '''
 L = ['Michael', 'Sarah', 'Tracy', 'Bob', 'Jack']
@@ -107,3 +108,123 @@ print(next(g))
 print("*"*20)
 print(next(g))
 '''
+'''
+# why f1(), f2(), f3() returns 9, 9, 9 rather than 1, 4, 9?
+def count():
+    fs = []
+    for i in range(1, 4):
+        def f():
+             return i * i
+        fs.append(f)
+    return fs
+
+f1, f2, f3 = count()
+
+print(f1())
+print(f2())
+print(f3())
+'''
+'''
+def count():
+    fs = []
+    def f(n):
+        def j():
+            return n * n
+        return j
+    for i in range(1, 4):
+        fs.append(f(i))
+    return fs
+
+f1, f2, f3 = count()
+
+print(f1())
+print(f2())
+print(f3())
+'''
+
+#def is_odd(n):
+#    return n % 2 == 1
+#L = list(filter(is_odd, range(1, 20)))
+#改造匿名函数
+#L = list(filter(lambda x: x % 2 == 1, range(1,20)))
+#print(L)
+
+'''def metric(fn):
+    @functools.wraps(fn)
+    def wrapper(*args, **kw):
+        b_time = time.time()
+        print('begin call')
+        value = fn(*args, **kw)
+        print('end call')
+        f_time = time.time()
+        print('%s executed in %s ms' % (fn.__name__, str((f_time - b_time)* 1000)))
+        return value
+    return wrapper'''
+
+'''
+class Student(object):
+    def __init__(self, name, gender):
+        self.name = name
+        self.set_gender(gender)
+
+    def get_gender(self) :
+        return self.__gender
+
+    def set_gender(self, gender) :
+        if isinstance(gender, str) == False : raise ValueError('参数类型错误!')
+
+        gender = gender.lower()
+        if gender in ('male', 'female') :
+            self.__gender = gender
+        else :
+            raise GenderError()
+'''
+'''
+class GenderError(Exception) :
+   
+
+    def __init__(self) :
+        pass
+    def __str__(self):
+        return '输入的性别错误! 只允许输入"male"或"female"(不区分大小写)'
+'''
+
+
+'''
+class Animal(object):
+    def run(self):
+        print('Animal is running...')
+
+class Dog(Animal):
+    def run(self):
+        print('Dog is running...')
+
+class Cat(Animal):
+    def run(self):
+        print('Cat is running...')
+
+def run_twice(animal):
+    animal.run()
+    animal.run()
+
+a = Animal()
+d = Dog()
+c = Cat()
+
+print('a is Animal?', isinstance(a, Animal))
+print('a is Dog?', isinstance(a, Dog))
+print('a is Cat?', isinstance(a, Cat))
+
+print('d is Animal?', isinstance(d, Animal))
+print('d is Dog?', isinstance(d, Dog))
+print('d is Cat?', isinstance(d, Cat))
+
+run_twice(c)
+'''
+
+class Student(object):
+    count = 0
+
+    def __init__(self, name):
+        self.name = name
+        Student.count += 1
